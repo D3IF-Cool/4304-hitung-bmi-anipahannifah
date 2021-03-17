@@ -20,10 +20,12 @@ class HitungFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHitungBinding.inflate(
-            layoutInflater, container, false)
+            layoutInflater, container, false
+        )
         binding.button.setOnClickListener { hitungBmi() }
         binding.saranButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi))
+            view.findNavController()
+                .navigate(HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi))
         }
         return binding.root
     }
@@ -62,21 +64,25 @@ class HitungFragment : Fragment() {
             when {
                 bmi < 20.5 -> KategoriBmi.KURUS
                 bmi >= 27.0 -> KategoriBmi.GEMUK
-                else ->KategoriBmi.IDEAL
+                else -> KategoriBmi.IDEAL
             }
         } else {
             when {
-                bmi < 18.5 -> kategoriBmi.KURUS
+                bmi < 18.5 -> KategoriBmi.KURUS
                 bmi >= 25.0 -> KategoriBmi.GEMUK
                 else -> KategoriBmi.IDEAL
             }
-            val stringRes = when (kategoriBmi) {
-                KategoriBmi.KURUS -> R.string.kurus
-                KategoriBmi.IDEAL -> R.string.ideal
-                KategoriBmi.GEMUK -> R.string.gemuk
 
         }
+        val stringRes = when (kategoriBmi) {
+            KategoriBmi.KURUS -> R.string.kurus
+            KategoriBmi.IDEAL -> R.string.ideal
+            KategoriBmi.GEMUK -> R.string.gemuk
+
+        }
+
         return getString(stringRes)
     }
+}
 
 
