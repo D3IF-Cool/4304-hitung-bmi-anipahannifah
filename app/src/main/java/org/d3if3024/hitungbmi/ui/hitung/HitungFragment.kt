@@ -3,20 +3,28 @@ package org.d3if3024.hitungbmi.ui.hitung
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import org.d3if3024.hitungbmi.R
 import org.d3if3024.hitungbmi.data.KategoriBmi
 import org.d3if3024.hitungbmi.databinding.FragmentHitungBinding
+import org.d3if3024.hitungbmi.db.BmiDb
 
 
 class HitungFragment : Fragment() {
-    private val viewModel: HitungViewModel by viewModels()
+    private val viewModel: HitungViewModel by lazy {
+        val db = BmiDb.getInstance(requireContext())
+        val factory = HitungViewModelFactory(db.dao)
+        ViewModelProvider(this, factory).get(HitungViewModel::class.java)
+    }
+
     private lateinit var binding: FragmentHitungBinding
 
     override fun onCreateView(
@@ -50,6 +58,11 @@ class HitungFragment : Fragment() {
                 getKategori(it.kategori))
             binding.buttonGroup.visibility = View.VISIBLE
         })
+        viewModel.data.observe(viewLifecycleOwner, {
+            if (it == null) return@observe
+            Log.d("HitungFragment", "Data tersimpan. ID = ${it.id}")
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
