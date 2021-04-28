@@ -18,7 +18,6 @@ class HitungViewModel(private val db: BmiDao) : ViewModel() {
 
     // Navigasi akan bernilai null ketika tidak bernavigasi
     private val navigasi = MutableLiveData<KategoriBmi?>()
-    val data = db.getLastBmi()
 
     fun hitungBmi(berat: String, tinggi: String, isMale: Boolean) {
         val tinggiCm = tinggi.toFloat() / 100
